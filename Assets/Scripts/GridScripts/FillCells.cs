@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
 
@@ -12,50 +11,6 @@ public class FillCells
         this.gameData = gameData;
         this.gridCells = gridCells;
     }
-
-    /* public void PlaceWordsInGrid()
-     {
-         bool wordPlaced = false;
-         foreach (string word in gameData.words)
-         {
-             // Check all possible starting positions for horizontal placement
-             for (int startX = 0; startX <= gameData.gridSizeX - word.Length; startX++)
-             {
-                 int startY = Random.Range(0, gameData.gridSizeY); // Randomize Y position if needed
-
-                 // Try horizontal placement from startX, startY
-                 if (TryPlaceWordHorizontally(word, startX, startY))
-                 {
-                     wordPlaced = true;
-                     break; // Exit loop once word is placed
-                 }
-             }
-
-             if (!wordPlaced)
-             {
-                 Debug.LogWarning($"Word '{word}' could not be placed in the grid.");
-             }
-         }
-     }
-
-     private bool TryPlaceWordHorizontally(string word, int startX, int startY)
-     {
-         if (startX + word.Length <= gameData.gridSizeX)
-         {
-             for (int i = 0; i < word.Length; i++)
-             {
-                 GameObject cell = gridCells[startX + i, startY];
-                 TextMeshProUGUI textMesh = cell.GetComponentInChildren<TextMeshProUGUI>();
-
-                 if (textMesh != null)
-                 {
-                     textMesh.text = word[i].ToString();
-                 }
-             }
-             return true;
-         }
-         return false;
-     }*/
     public void FillGrid()
     {
         PlaceWordsInGrid();
