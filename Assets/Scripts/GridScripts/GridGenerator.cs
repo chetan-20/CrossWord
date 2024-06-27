@@ -4,14 +4,14 @@ using TMPro;
 using UnityEngine.UI;
 public class GridGenerator : MonoBehaviour
 {
-    [SerializeField] private PuzzleData gameData;
+    public PuzzleData gameData ;
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
     private GameObject[,] gridCells;
     private FillCells fillCells;
 
     private void Start()
-    {
+    {       
         GenerateGrid();
         SetGridLayout();
         fillCells = new FillCells(gameData, gridCells);

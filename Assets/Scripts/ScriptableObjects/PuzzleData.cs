@@ -5,9 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class PuzzleData : ScriptableObject
 {
-    public float timeInSeconds;
     public int gridSizeX;
     public int gridSizeY;
-    public string[] words;
-   
+    public string[] words;   
 }
