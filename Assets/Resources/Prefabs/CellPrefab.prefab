@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 3148374724179422359}
   - component: {fileID: 6031860225874149949}
   - component: {fileID: 8334076122261729317}
+  - component: {fileID: 9064419768740544560}
   m_Layer: 0
   m_Name: CellPrefab
   m_TagString: Untagged
@@ -210,3 +211,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9064419768740544560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920259285240020284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cd3fb1aecdf104481bd5ce4a24aeeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageComponent: {fileID: 8334076122261729317}
+  textComponent: {fileID: 8978578678756103964}
