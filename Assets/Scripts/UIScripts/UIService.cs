@@ -17,29 +17,37 @@ public class UIService : MonoBehaviour
     [SerializeField] private Button levelResetButton;
     [SerializeField] private Button levelNextButton;
     [SerializeField] private Button levelHintButton;
-
+  
     private void Start()
     {
-        playButton.onClick.AddListener(SelectLevel);
-        exitButton.onClick.AddListener(Application.Quit);
-        levelBackButton.onClick.AddListener(OnBackButtonPressed);
-        levelResetButton.onClick.AddListener(onResetButtonPressed);
-        AssignLevelstoButtons();
+        InitializeButtons();
+        ShowMenu();
+    }
+
+    private void InitializeButtons()
+    {
+        playButton.onClick.AddListener(OnPlayClicked);
+        exitButton.onClick.AddListener(OnExitClicked);
+        levelBackButton.onClick.AddListener(OnBackButtonClicked);
+        levelResetButton.onClick.AddListener(OnResetButtonClicked);
+        AssignLevelButtons();
+    }
+
+    private void ShowMenu()
+    {
         menuObject.SetActive(true);
         levelButtonObject.SetActive(false);
         levelSelectorObject.SetActive(false);
-    }
-    private void EnableMenu()=> menuObject.SetActive(true);    
+    }     
     private void EnableLevelSelector()=> levelSelectorObject.SetActive(true);          
     private void DisableLevelSelector()=> levelSelectorObject.SetActive(false);
     private void DisableLevelButtons() => levelButtonObject.SetActive(false);
     private void EnableLevelButtons() => levelButtonObject.SetActive(true);
-    private void SelectLevel()
-    {
-        menuObject.SetActive(false);
-        EnableLevelSelector();
-    }        
-    private void AssignLevelstoButtons()
+    private void OnResetButtonClicked()=>GameService.Instance.GridGenerator.ResetGrid();   
+    private void OnPlayClicked() => ShowLevelSelector();    
+    private void OnExitClicked()=> Application.Quit();
+         
+    private void AssignLevelButtons()
     {
         Button[] buttons = levelSelectorObject.GetComponentsInChildren<Button>();
         for(int i=0; i<buttons.Length; i++)
@@ -55,16 +63,18 @@ public class UIService : MonoBehaviour
         GameService.Instance.GridGenerator.GenerateLevel();
         GameService.Instance.LevelService.EnableGrid();
         EnableLevelButtons();
-    }
-    private void OnBackButtonPressed()
+    }    
+    private void ShowLevelSelector()
+    {
+        menuObject.SetActive(false);
+        EnableLevelSelector();
+    }  
+    private void OnBackButtonClicked()
     {
         GameService.Instance.LevelService.DisableGrid();
         GameService.Instance.GridGenerator.RemoveCells();
-        EnableMenu();
+        ShowMenu();
         DisableLevelButtons();
     }
-    private void onResetButtonPressed()
-    {
-        GameService.Instance.GridGenerator.ResetGrid();
-    }
+        
 }
