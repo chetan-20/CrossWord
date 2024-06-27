@@ -9,8 +9,7 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
     private GameObject[,] gridCells;
     private FillCells fillCells;
-
-   
+  
     public void GenerateLevel()
     {       
         GenerateGrid();

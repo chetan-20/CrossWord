@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -11,50 +12,47 @@ public class FillCells
     {
         this.gameData = gameData;
         this.gridCells = gridCells;
-    }
+    }  
+    // Fills the grid with shuffled words and random letters.      
     public void FillGrid()
-    {
-        PlaceWordsInGrid();
-        FillGridWithRandomLetters();
-    }
-    public void ResetGrid()
-    {
-        ClearGrid();
-        FillGrid();
-    }
-    private void PlaceWordsInGrid()
-    {
-        foreach (string word in gameData.words)
+    {        
+        List<string> wordList = new List<string>(gameData.words);       
+        List<string> shuffledWords = ShuffleWords(wordList);
+        // Place words in the grid
+        foreach (string word in shuffledWords)
         {
-            bool wordPlaced = false;
-
-            // Randomly decide whether to place horizontally or vertically
-            bool placeHorizontally = Random.Range(0,2) == 0;
-
-            if (placeHorizontally)
-            {
-                wordPlaced = TryPlaceWordHorizontally(word);
-                if (!wordPlaced)
-                {
-                    wordPlaced = TryPlaceWordVertically(word);
-                }
-            }
-            else
-            {
-                wordPlaced = TryPlaceWordVertically(word);
-                if (!wordPlaced)
-                {
-                    wordPlaced = TryPlaceWordHorizontally(word);
-                }
-            }
+            bool wordPlaced = TryPlaceWord(word);
 
             if (!wordPlaced)
             {
                 Debug.LogWarning($"Word '{word}' could not be placed in the grid.");
             }
-        }
+        }       
+        FillGridWithRandomLetters();
     }
 
+    // Resets the grid by clearing it and refilling it. 
+    public void ResetGrid()
+    {
+        ClearGrid();
+        FillGrid();
+    }   
+    // Tries to place a word in the grid, attempting both horizontal and vertical placements.      
+    private bool TryPlaceWord(string word)
+    {
+        // Randomly decide whether to place horizontally or vertically
+        bool placeHorizontally = UnityEngine.Random.Range(0, 2) == 0;
+
+        if (placeHorizontally)
+        {
+            return TryPlaceWordHorizontally(word) || TryPlaceWordVertically(word);
+        }
+        else
+        {
+            return TryPlaceWordVertically(word) || TryPlaceWordHorizontally(word);
+        }
+    }  
+    // Tries to place a word horizontally in the grid.   
     private bool TryPlaceWordHorizontally(string word)
     {
         for (int x = 0; x <= gameData.gridSizeX - word.Length; x++)
@@ -69,8 +67,8 @@ public class FillCells
             }
         }
         return false;
-    }
-
+    }  
+    // Tries to place a word vertically in the grid.  
     private bool TryPlaceWordVertically(string word)
     {
         for (int y = 0; y <= gameData.gridSizeY - word.Length; y++)
@@ -85,8 +83,8 @@ public class FillCells
             }
         }
         return false;
-    }
-
+    }   
+    // Checks if a word can be placed starting from given coordinates and direction.   
     private bool CanPlaceWord(string word, int startX, int startY, bool horizontal)
     {
         if (horizontal)
@@ -123,10 +121,9 @@ public class FillCells
                 }
             }
         }
-
         return true;
-    }
-
+    }  
+    // Places a word in the grid starting from given coordinates and direction.   
     private void PlaceWord(string word, int startX, int startY, bool horizontal)
     {
         if (horizontal)
@@ -154,7 +151,6 @@ public class FillCells
             }
         }
     }
-
     private void FillGridWithRandomLetters()
     {
         string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Letters to choose from
@@ -164,14 +160,14 @@ public class FillCells
             {
                 GameObject cell = gridCells[x, y];
                 TextMeshProUGUI textMesh = cell.GetComponentInChildren<TextMeshProUGUI>();
-                if (textMesh != null && string.IsNullOrEmpty(textMesh.text))//if cell empty fill with random letter
+                if (textMesh != null && string.IsNullOrEmpty(textMesh.text))
                 {
-                    char randomLetter = letters[Random.Range(0,letters.Length)];
+                    char randomLetter = letters[UnityEngine.Random.Range(0, letters.Length)];
                     textMesh.text = randomLetter.ToString();
                 }
             }
         }
-    }
+    } 
     private void ClearGrid()
     {
         for (int x = 0; x < gameData.gridSizeX; x++)
@@ -182,11 +178,20 @@ public class FillCells
                 TextMeshProUGUI textMesh = cell.GetComponentInChildren<TextMeshProUGUI>();
                 if (textMesh != null)
                 {
-                    textMesh.text = ""; // Clear the text
+                    textMesh.text = "";
                 }
             }
         }
+    }  
+    private List<string> ShuffleWords(List<string> words)
+    {
+        for (int i = 0; i < words.Count; i++)
+        {
+            string temp = words[i];
+            int randomIndex = UnityEngine.Random.Range(i, words.Count);
+            words[i] = words[randomIndex];
+            words[randomIndex] = temp;
+        }
+        return words;
     }
-   
-
 }
