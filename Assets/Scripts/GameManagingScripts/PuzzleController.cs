@@ -7,6 +7,7 @@ public class PuzzleController
     private List<MouseInputHandler> selectedCells = new List<MouseInputHandler>();
     private List<string> selectedLetters = new List<string>();
     private List<string> correctWords = new List<string>();
+    private List<MouseInputHandler> correctCells = new List<MouseInputHandler>(); // Track correct cells directly
     private int maxWordLength;
 
     public PuzzleController()
@@ -14,6 +15,7 @@ public class PuzzleController
         correctWords.AddRange(GameService.Instance.GridGenerator.gameData.words);
         maxWordLength = GameService.Instance.GridGenerator.BiggestWordLength();
     }
+
     public void HandleCellClick(MouseInputHandler cell)
     {
         if (selectedCells.Contains(cell))
@@ -53,7 +55,7 @@ public class PuzzleController
             if (IsCorrectWord(currentWord))
             {
                 MarkCorrectWord(currentWord);
-            }
+            }            
         }
     }
 
@@ -128,6 +130,7 @@ public class PuzzleController
         foreach (MouseInputHandler cell in selectedCells)
         {
             cell.SetCorrect();
+            correctCells.Add(cell); // Track correct cells
         }
         correctWords.Remove(word); // Remove word from list of correct words
     }
@@ -136,7 +139,10 @@ public class PuzzleController
     {
         foreach (MouseInputHandler cell in selectedCells)
         {
-            cell.ResetCell();
+            if (!correctCells.Contains(cell)) // Only reset if not already correct
+            {
+                cell.ResetCell();
+            }
         }
     }
 
