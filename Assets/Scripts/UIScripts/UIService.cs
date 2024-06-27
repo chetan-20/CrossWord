@@ -17,13 +17,12 @@ public class UIService : MonoBehaviour
     {
         titleText.SetActive(false);
         buttonsObject.SetActive(false);
-        backGround.SetActive(false);
+        GameService.Instance.GridGenerator.gameObject.SetActive(true);
     }
     public void EnableMenu()
     {
         titleText.SetActive(true);
-        buttonsObject.SetActive(true);
-        backGround.SetActive(true);
+        buttonsObject.SetActive(true);       
     }
     private void Start()
     {
