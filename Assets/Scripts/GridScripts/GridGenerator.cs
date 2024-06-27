@@ -10,7 +10,8 @@ public class GridGenerator : MonoBehaviour
     private GameObject[,] gridCells;
     private FillCells fillCells;
 
-    private void Start()
+   
+    public void GenerateLevel()
     {       
         GenerateGrid();
         SetGridLayout();
@@ -39,5 +40,26 @@ public class GridGenerator : MonoBehaviour
         gridLayoutGroup.constraintCount = gameData.gridSizeY;
         
     }
-    
+    public void ResetGrid()
+    {
+        fillCells.ResetGrid();
+    }
+    public void RemoveCells()
+    {
+        if (gridCells != null)
+        {            
+            for (int x = 0; x < gameData.gridSizeX; x++)
+            {
+                for (int y = 0; y < gameData.gridSizeY; y++)
+                {
+                    GameObject cell = gridCells[x, y];                    
+                    if (cell != null)
+                    {                      
+                        Destroy(cell);
+                    }
+                }
+            }           
+            gridCells = null;
+        }
+    }
 }

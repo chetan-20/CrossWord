@@ -1,5 +1,6 @@
 
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class FillCells 
@@ -15,6 +16,11 @@ public class FillCells
     {
         PlaceWordsInGrid();
         FillGridWithRandomLetters();
+    }
+    public void ResetGrid()
+    {
+        ClearGrid();
+        FillGrid();
     }
     private void PlaceWordsInGrid()
     {
@@ -166,6 +172,21 @@ public class FillCells
             }
         }
     }
-
+    private void ClearGrid()
+    {
+        for (int x = 0; x < gameData.gridSizeX; x++)
+        {
+            for (int y = 0; y < gameData.gridSizeY; y++)
+            {
+                GameObject cell = gridCells[x, y];
+                TextMeshProUGUI textMesh = cell.GetComponentInChildren<TextMeshProUGUI>();
+                if (textMesh != null)
+                {
+                    textMesh.text = ""; // Clear the text
+                }
+            }
+        }
+    }
+   
 
 }
