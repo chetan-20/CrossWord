@@ -165,15 +165,7 @@ public class PuzzleController
         {
             Debug.Log("Level Completed");
         }
-    }
-   /* private string FindHintForWord(string word)
-    {
-        if (wordHintDictionary.ContainsKey(word))
-        {
-            return wordHintDictionary[word];
-        }
-        return string.Empty;
-    }*/
+    }  
     public string GetRandomHint()
     {
         if (wordHintDictionary.Count == 0)
@@ -183,8 +175,7 @@ public class PuzzleController
         int randomIndex = UnityEngine.Random.Range(0, correctWords.Count);
         string randomWord = correctWords[randomIndex];       
         return wordHintDictionary[randomWord];
-    }
-   
+    }  
     private void PrintHints()
     {
         Debug.Log("Hints:");
