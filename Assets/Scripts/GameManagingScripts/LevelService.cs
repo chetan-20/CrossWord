@@ -1,7 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+using UnityEngine;
+/*
+ * Enables Disables LevelGridObject
+ * Allows other script to create new puzzle controller when a level is reset or restarted or chosen from menu
+ * Stores all the PuzzleData 
+ */
 public class LevelService : MonoBehaviour
 {
     [SerializeField] private GameObject gridGenObject;

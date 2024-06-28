@@ -1,6 +1,9 @@
 
 using UnityEngine;
-
+/*
+ * Service Locator for entire game to allow script communication for the entire codebase
+ * Keeps Reference of all the scripts
+ */
 public class GameService : MonoBehaviour
 {
     [SerializeField] private GridGenerator gridGenerator;

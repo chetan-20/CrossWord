@@ -3,7 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+/*
+ * Provides the mouse Input interaction of the Player
+ * Changes the color of cells based on correct selection or incorrect
+ */
 public class MouseInputHandler : MonoBehaviour,IPointerClickHandler
 {    
     [SerializeField]private Image imageComponent;

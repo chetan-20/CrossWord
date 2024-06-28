@@ -2,6 +2,12 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+/*
+ * This Class Generates the level
+ * Spawns the cell prefab in grid like manner
+ * Gets Game Data from UIService
+ * Resets the level aswell
+ */
 public class GridGenerator : MonoBehaviour
 {
     public PuzzleData gameData ;

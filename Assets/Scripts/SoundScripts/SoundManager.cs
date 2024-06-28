@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * This class manages the audio for entire game
+ * Class SoundType is serialized so that we can assign clips to different sound type
+*/
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource SoundEffect;

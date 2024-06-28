@@ -1,9 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * Has Reference to all the buttons , and UI related GameObjects
+ * Assigns button their respective method
+ * Has OnLevelOver scenario when level is finished
+ * On level Selection Passes the required ScriptableObject to Grid Generator from Level Service
+ */
 public class UIService : MonoBehaviour
 {
     [SerializeField] private GameObject backGround;

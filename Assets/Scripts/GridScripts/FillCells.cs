@@ -1,9 +1,12 @@
 
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-
+/*
+ * Fills the cells spawned with Words Horizontally and vertically randomly
+ * Shuffles the list of word Before Filling
+ * Fills The remaining cells with random letters
+ */
 public class FillCells 
 {
     private PuzzleData gameData;

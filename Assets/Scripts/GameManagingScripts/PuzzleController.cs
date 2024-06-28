@@ -1,9 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
+using System.Collections.Generic;
+using UnityEngine;
+/*
+ * Manages the entire Puzzle
+ * Doesnt allow User to select more than maxWordLength
+ * Selects cells and retrieves the char/string in it then joins all of them to see if a word is former
+ * If not then deselects them
+ * Creates a dictionary for Hint and links it to words that are not found
+ * Gives Randmon hint from the dictionary if the word is not found
+ * If correct word is found its removed from correcWords lis and Dictionary
+ * After the correctWords List is empty that means level is over
+ */
 public class PuzzleController
 {
     private int maxWordLength;

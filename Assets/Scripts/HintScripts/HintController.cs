@@ -1,8 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+/*
+ * Manages The Hint PopUp Effect
+ * Coroutine is used to Disable the PopUp GameObject after 3seconds
+ */
 public class HintController : MonoBehaviour
 {
     [SerializeField] public TextMeshProUGUI hintText;
