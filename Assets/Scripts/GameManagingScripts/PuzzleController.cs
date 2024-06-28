@@ -25,8 +25,7 @@ public class PuzzleController
             {
                 wordHintDictionary[correctWords[i]] = hints[i];
             }
-        }
-        PrintHints();
+        }        
     }  
     public void HandleCellClick(MouseInputHandler cell)
     {
@@ -163,7 +162,7 @@ public class PuzzleController
     {
         if (correctWords.Count == 0)
         {
-            Debug.Log("Level Completed");
+            GameService.Instance.UIService.OnLevelOver();
         }
     }  
     public string GetRandomHint()
@@ -175,13 +174,5 @@ public class PuzzleController
         int randomIndex = UnityEngine.Random.Range(0, correctWords.Count);
         string randomWord = correctWords[randomIndex];       
         return wordHintDictionary[randomWord];
-    }  
-    private void PrintHints()
-    {
-        Debug.Log("Hints:");
-        foreach (var kvp in wordHintDictionary)
-        {
-            Debug.Log($"{kvp.Key}: {kvp.Value}");
-        }
-    }
+    }     
 }

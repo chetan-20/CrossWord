@@ -10,13 +10,14 @@ public class UIService : MonoBehaviour
     [SerializeField] private GameObject menuObject;
     [SerializeField] private GameObject levelSelectorObject;
     [SerializeField] private GameObject levelButtonObject;
-    [SerializeField] private Button playButton;
-    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button playButton;    
     [SerializeField] private Button exitButton;
     [SerializeField] private Button levelBackButton;
     [SerializeField] private Button levelResetButton;   
     [SerializeField] private Button levelHintButton;
-  
+    [SerializeField] private GameObject levelOverObject;
+    [SerializeField] private Button menuButton;
+    [SerializeField] private Button levelOverRestartButton;
     private void Start()
     {
         InitializeButtons();
@@ -29,6 +30,8 @@ public class UIService : MonoBehaviour
         levelBackButton.onClick.AddListener(OnBackButtonClicked);
         levelResetButton.onClick.AddListener(OnResetButtonClicked);
         levelHintButton.onClick.AddListener(DisplayHint);
+        menuButton.onClick.AddListener(OnBackButtonClicked);
+        levelOverRestartButton.onClick.AddListener(OnLevelOverResetButtonClicked);
         AssignLevelButtons();
     }
     private void ShowMenu()
@@ -36,6 +39,7 @@ public class UIService : MonoBehaviour
         menuObject.SetActive(true);
         levelButtonObject.SetActive(false);
         levelSelectorObject.SetActive(false);
+        levelOverObject.SetActive(false);
     }     
     private void EnableLevelSelector()=> levelSelectorObject.SetActive(true);          
     private void DisableLevelSelector()=> levelSelectorObject.SetActive(false);
@@ -69,12 +73,26 @@ public class UIService : MonoBehaviour
     private void OnBackButtonClicked()
     {
         GameService.Instance.LevelService.DisableGrid();
-        GameService.Instance.GridGenerator.RemoveCells();
-        ShowMenu();
+        GameService.Instance.GridGenerator.RemoveCells();       
         DisableLevelButtons();
+        levelOverObject.SetActive(false);
+        ShowMenu();
     }
     public void DisplayHint()
     {
         GameService.Instance.HintController.ShowHint(GameService.Instance.puzzleController.GetRandomHint());
-    }    
+    }
+    public void OnLevelOver()
+    {
+        DisableLevelButtons();
+        levelOverObject.SetActive(true);
+        GameService.Instance.LevelService.DisableGrid();
+    }
+    private void OnLevelOverResetButtonClicked() 
+    {
+        levelOverObject.SetActive(false);
+        GameService.Instance.LevelService.EnableGrid();
+        GameService.Instance.GridGenerator.ResetGrid();
+        EnableLevelButtons();
+    }
 }

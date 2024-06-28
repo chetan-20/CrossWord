@@ -8,7 +8,7 @@ public class LevelService : MonoBehaviour
     public PuzzleData[] puzzleData;
     public void EnableGrid()=>gridGenObject.SetActive(true);
     public void DisableGrid()=>gridGenObject.SetActive(false);
-    public void ResetPuzzleController()
+    public void CreatePuzzleController()
     {
         GameService.Instance.puzzleController = new PuzzleController();
     }

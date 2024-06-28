@@ -14,7 +14,7 @@ public class GridGenerator : MonoBehaviour
     {       
         GenerateGrid();
         SetGridLayout();
-        GameService.Instance.LevelService.ResetPuzzleController();
+        GameService.Instance.LevelService.CreatePuzzleController();
         fillCells = new FillCells(gameData, gridCells);
         fillCells.FillGrid();
     }
