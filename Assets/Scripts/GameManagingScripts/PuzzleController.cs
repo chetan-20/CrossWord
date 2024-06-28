@@ -6,25 +6,28 @@ using UnityEngine;
 
 public class PuzzleController
 {
-    private List<MouseInputHandler> selectedCells = new List<MouseInputHandler>();
-    private List<string> selectedLetters = new List<string>();
-    private List<string> correctWords = new List<string>();
-    private List<string> unfoundWords = new List<string>();
     private int maxWordLength;
     private string[] hints;
-    private Dictionary<string, bool> wordFoundStatus = new Dictionary<string, bool>();
     private bool wordSelected = false;
+    private List<MouseInputHandler> selectedCells = new List<MouseInputHandler>();
+    private List<string> selectedLetters = new List<string>();
+    private List<string> correctWords = new List<string>();         
+    private Dictionary<string, string> wordHintDictionary = new Dictionary<string, string>();
+    
     public PuzzleController()
     {
         correctWords.AddRange(GameService.Instance.GridGenerator.gameData.words);       
         maxWordLength = BiggestWordLength();
         hints = GameService.Instance.GridGenerator.gameData.hints;
-        unfoundWords.AddRange(correctWords);
-        foreach (string word in correctWords)
+        for (int i = 0; i < correctWords.Count; i++)
         {
-            wordFoundStatus[word] = false;
+            if (i < hints.Length)
+            {
+                wordHintDictionary[correctWords[i]] = hints[i];
+            }
         }
-    }
+        PrintHints();
+    }  
     public void HandleCellClick(MouseInputHandler cell)
     {
         if (selectedCells.Count > 0 && wordSelected)
@@ -125,9 +128,8 @@ public class PuzzleController
         {
             cell.SetCorrect();
         }
-        correctWords.Remove(word); 
-        unfoundWords.Remove(word); 
-        wordFoundStatus[word] = true;      
+        correctWords.Remove(word);
+        wordHintDictionary.Remove(word);
     }
     private Vector2Int GetCellPosition(GameObject cellGO)
     {
@@ -144,36 +146,6 @@ public class PuzzleController
         }
         return Vector2Int.zero;
     }
-    public void CheckEmptyCorrectWords()
-    {
-        if (correctWords.Count == 0)
-        {
-            Debug.Log("Level Completed");
-        }
-    }
-    private string FindHintForWord(string word)
-    {
-        int index = correctWords.IndexOf(word);
-        if (index != -1 && index < hints.Length)
-        {
-            return hints[index];
-        }
-        return string.Empty;
-    }
-    public string GetRandomHint()
-    {        
-        List<string> remainingUnfoundWords = unfoundWords.Where(word => !wordFoundStatus[word]).ToList();
-
-        if (remainingUnfoundWords.Count == 0)
-        {
-            return string.Empty; // No remaining unfound words
-        }       
-        int randomIndex = UnityEngine.Random.Range(0, remainingUnfoundWords.Count);
-        // Get the random word at the selected index
-        string randomWord = remainingUnfoundWords[randomIndex];       
-        string randomHint = FindHintForWord(randomWord);
-        return randomHint;
-    }
     private int BiggestWordLength()
     {
         int maxLength = 0;
@@ -186,5 +158,39 @@ public class PuzzleController
             }
         }
         return maxLength;
+    }
+    public void CheckEmptyCorrectWords()
+    {
+        if (correctWords.Count == 0)
+        {
+            Debug.Log("Level Completed");
+        }
+    }
+   /* private string FindHintForWord(string word)
+    {
+        if (wordHintDictionary.ContainsKey(word))
+        {
+            return wordHintDictionary[word];
+        }
+        return string.Empty;
+    }*/
+    public string GetRandomHint()
+    {
+        if (wordHintDictionary.Count == 0)
+        {
+            return string.Empty;
+        }      
+        int randomIndex = UnityEngine.Random.Range(0, correctWords.Count);
+        string randomWord = correctWords[randomIndex];       
+        return wordHintDictionary[randomWord];
+    }
+   
+    private void PrintHints()
+    {
+        Debug.Log("Hints:");
+        foreach (var kvp in wordHintDictionary)
+        {
+            Debug.Log($"{kvp.Key}: {kvp.Value}");
+        }
     }
 }
