@@ -45,20 +45,33 @@ public class UIService : MonoBehaviour
     private void DisableLevelSelector()=> levelSelectorObject.SetActive(false);
     private void DisableLevelButtons() => levelButtonObject.SetActive(false);
     private void EnableLevelButtons() => levelButtonObject.SetActive(true);
-    private void OnResetButtonClicked()=>GameService.Instance.GridGenerator.ResetGrid();   
-    private void OnPlayClicked() => ShowLevelSelector();    
-    private void OnExitClicked()=> Application.Quit();         
+    private void OnResetButtonClicked()
+    {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
+        GameService.Instance.GridGenerator.ResetGrid();
+    }
+    private void OnPlayClicked() 
+    {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
+        ShowLevelSelector();
+    }
+    private void OnExitClicked()
+    {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
+        Application.Quit();
+    }
     private void AssignLevelButtons()
     {
         Button[] buttons = levelSelectorObject.GetComponentsInChildren<Button>();
         for(int i=0; i<buttons.Length; i++)
         {
             int index = i;
-            buttons[i].onClick.AddListener(()=>OnLevelSelect(index));
+            buttons[i].onClick.AddListener(()=>OnLevelSelectClicked(index));
         }
     }
-    private void OnLevelSelect(int level)
+    private void OnLevelSelectClicked(int level)
     {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
         DisableLevelSelector();        
         GameService.Instance.GridGenerator.gameData = GameService.Instance.LevelService.puzzleData[level];
         GameService.Instance.GridGenerator.GenerateLevel();
@@ -72,6 +85,7 @@ public class UIService : MonoBehaviour
     }  
     private void OnBackButtonClicked()
     {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
         GameService.Instance.LevelService.DisableGrid();
         GameService.Instance.GridGenerator.RemoveCells();       
         DisableLevelButtons();
@@ -81,15 +95,18 @@ public class UIService : MonoBehaviour
     public void DisplayHint()
     {
         GameService.Instance.HintController.ShowHint(GameService.Instance.puzzleController.GetRandomHint());
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
     }
     public void OnLevelOver()
     {
         DisableLevelButtons();
         levelOverObject.SetActive(true);
         GameService.Instance.LevelService.DisableGrid();
+        GameService.Instance.SoundManager.PlaySound(Sounds.LevelOverSound);
     }
     private void OnLevelOverResetButtonClicked() 
     {
+        GameService.Instance.SoundManager.PlaySound(Sounds.ButtonClickSound);
         levelOverObject.SetActive(false);
         GameService.Instance.LevelService.EnableGrid();
         GameService.Instance.GridGenerator.ResetGrid();

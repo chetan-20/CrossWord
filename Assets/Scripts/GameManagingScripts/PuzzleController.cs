@@ -55,11 +55,13 @@ public class PuzzleController
         if (selectedLetters.Count >= maxWordLength)
         {
             EndSelection();
+            GameService.Instance.SoundManager.PlaySound(Sounds.IncorrectWordSound);
             return;
         }
         selectedCells.Add(cell);
         selectedLetters.Add(cell.GetText());
         cell.SetSelected(true);
+        GameService.Instance.SoundManager.PlaySound(Sounds.CellClickSound);
         // Check if a word is formed after selecting this cell
         string currentWord = string.Join("", selectedLetters);
         if (currentWord.Length <= maxWordLength)
@@ -80,7 +82,7 @@ public class PuzzleController
         {
             cell.SetSelected(false);
         }
-        selectedCells.Clear();
+        selectedCells.Clear();        
     }
     private void DeselectCell(MouseInputHandler cell)
     {
@@ -129,6 +131,7 @@ public class PuzzleController
         }
         correctWords.Remove(word);
         wordHintDictionary.Remove(word);
+        GameService.Instance.SoundManager.PlaySound(Sounds.CorrectWordSound);
     }
     private Vector2Int GetCellPosition(GameObject cellGO)
     {
