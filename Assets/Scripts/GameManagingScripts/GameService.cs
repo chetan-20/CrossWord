@@ -27,5 +27,9 @@ public class GameService : MonoBehaviour
         {
             puzzleController = new PuzzleController();
         }
-    }  
+    }
+    public void ResetPuzzleController()
+    {
+        puzzleController = new PuzzleController();
+    }
 }

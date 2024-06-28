@@ -29,14 +29,7 @@ public class FillCells
             }
         }       
         FillGridWithRandomLetters();
-    }
-
-    // Resets the grid by clearing it and refilling it. 
-    public void ResetGrid()
-    {
-        ClearGrid();
-        FillGrid();
-    }   
+    }  
     // Tries to place a word in the grid, attempting both horizontal and vertical placements.      
     private bool TryPlaceWord(string word)
     {
@@ -164,21 +157,6 @@ public class FillCells
                 {
                     char randomLetter = letters[UnityEngine.Random.Range(0, letters.Length)];
                     textMesh.text = randomLetter.ToString();
-                }
-            }
-        }
-    } 
-    private void ClearGrid()
-    {
-        for (int x = 0; x < gameData.gridSizeX; x++)
-        {
-            for (int y = 0; y < gameData.gridSizeY; y++)
-            {
-                GameObject cell = gridCells[x, y];
-                TextMeshProUGUI textMesh = cell.GetComponentInChildren<TextMeshProUGUI>();
-                if (textMesh != null)
-                {
-                    textMesh.text = "";
                 }
             }
         }
