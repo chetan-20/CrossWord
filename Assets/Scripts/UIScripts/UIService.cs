@@ -14,8 +14,7 @@ public class UIService : MonoBehaviour
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button levelBackButton;
-    [SerializeField] private Button levelResetButton;
-    [SerializeField] private Button levelNextButton;
+    [SerializeField] private Button levelResetButton;   
     [SerializeField] private Button levelHintButton;
   
     private void Start()

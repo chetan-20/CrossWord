@@ -61,18 +61,5 @@ public class GridGenerator : MonoBehaviour
             gridCells = null;
         }
     }
-    public int BiggestWordLength()
-    {
-        int maxLength = 0;
-
-        foreach (string word in gameData.words)
-        {
-            int wordLength = word.Length;
-            if (wordLength > maxLength)
-            {
-                maxLength = wordLength;
-            }
-        }
-        return maxLength;
-    }
+   
  }
