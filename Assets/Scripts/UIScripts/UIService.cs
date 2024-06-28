@@ -22,16 +22,15 @@ public class UIService : MonoBehaviour
         InitializeButtons();
         ShowMenu();
     }
-
     private void InitializeButtons()
     {
         playButton.onClick.AddListener(OnPlayClicked);
         exitButton.onClick.AddListener(OnExitClicked);
         levelBackButton.onClick.AddListener(OnBackButtonClicked);
         levelResetButton.onClick.AddListener(OnResetButtonClicked);
+        levelHintButton.onClick.AddListener(DisplayHint);
         AssignLevelButtons();
     }
-
     private void ShowMenu()
     {
         menuObject.SetActive(true);
@@ -44,8 +43,7 @@ public class UIService : MonoBehaviour
     private void EnableLevelButtons() => levelButtonObject.SetActive(true);
     private void OnResetButtonClicked()=>GameService.Instance.GridGenerator.ResetGrid();   
     private void OnPlayClicked() => ShowLevelSelector();    
-    private void OnExitClicked()=> Application.Quit();
-         
+    private void OnExitClicked()=> Application.Quit();         
     private void AssignLevelButtons()
     {
         Button[] buttons = levelSelectorObject.GetComponentsInChildren<Button>();
@@ -75,5 +73,8 @@ public class UIService : MonoBehaviour
         ShowMenu();
         DisableLevelButtons();
     }
-        
+    public void DisplayHint()
+    {
+        GameService.Instance.HintController.ShowHint(GameService.Instance.puzzleController.GetRandomHint());
+    }    
 }

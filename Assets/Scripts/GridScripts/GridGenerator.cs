@@ -14,7 +14,7 @@ public class GridGenerator : MonoBehaviour
     {       
         GenerateGrid();
         SetGridLayout();
-        GameService.Instance.ResetPuzzleController();
+        GameService.Instance.LevelService.ResetPuzzleController();
         fillCells = new FillCells(gameData, gridCells);
         fillCells.FillGrid();
     }
@@ -29,8 +29,7 @@ public class GridGenerator : MonoBehaviour
                 GameObject cell = Instantiate(cellPrefab, new Vector2(x, y), Quaternion.identity);
                 cell.transform.SetParent(transform, false); // Set the grid as parent
                 gridCells[x, y] = cell;
-               TextMeshProUGUI t = cell.GetComponentInChildren<TextMeshProUGUI>();
-                //t.text = ""+x+""+y;
+               TextMeshProUGUI t = cell.GetComponentInChildren<TextMeshProUGUI>();               
             }
         }
     }

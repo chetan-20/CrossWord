@@ -12,23 +12,19 @@ public class MouseInputHandler : MonoBehaviour,IPointerClickHandler
     {
         GameService.Instance.PuzzleController.HandleCellClick(this);
     }
-
     public void SetSelected(bool selected)
     {
         Color color = selected ? Color.red : Color.white;
         imageComponent.color = color;
     }
-
     public void SetCorrect()
     {
         imageComponent.color = Color.green;
     }
-
     public void ResetCell()
     {
         imageComponent.color = Color.white;
     }
-
     public string GetText()
     {
         return textComponent.text;

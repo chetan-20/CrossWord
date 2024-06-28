@@ -25,7 +25,7 @@ public class FillCells
 
             if (!wordPlaced)
             {
-                Debug.LogWarning($"Word '{word}' could not be placed in the grid.");
+                Debug.LogWarning(word+" could not be placed in the grid.");
             }
         }       
         FillGridWithRandomLetters();
@@ -76,8 +76,7 @@ public class FillCells
             }
         }
         return false;
-    }   
-    // Checks if a word can be placed starting from given coordinates and direction.   
+    }    
     private bool CanPlaceWord(string word, int startX, int startY, bool horizontal)
     {
         if (horizontal)
@@ -86,7 +85,6 @@ public class FillCells
             {
                 return false;
             }
-
             for (int i = 0; i < word.Length; i++)
             {
                 GameObject cell = gridCells[startX + i, startY];
@@ -103,7 +101,6 @@ public class FillCells
             {
                 return false;
             }
-
             for (int i = 0; i < word.Length; i++)
             {
                 GameObject cell = gridCells[startX, startY + i];
@@ -146,7 +143,7 @@ public class FillCells
     }
     private void FillGridWithRandomLetters()
     {
-        string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Letters to choose from
+        string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int x = 0; x < gameData.gridSizeX; x++)
         {
             for (int y = 0; y < gameData.gridSizeY; y++)

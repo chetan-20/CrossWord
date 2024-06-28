@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PuzzleController
@@ -7,20 +9,28 @@ public class PuzzleController
     private List<MouseInputHandler> selectedCells = new List<MouseInputHandler>();
     private List<string> selectedLetters = new List<string>();
     private List<string> correctWords = new List<string>();
+    private List<string> unfoundWords = new List<string>();
     private int maxWordLength;
+    private string[] hints;
+    private Dictionary<string, bool> wordFoundStatus = new Dictionary<string, bool>();
     private bool wordSelected = false;
     public PuzzleController()
     {
-        correctWords.AddRange(GameService.Instance.GridGenerator.gameData.words);
+        correctWords.AddRange(GameService.Instance.GridGenerator.gameData.words);       
         maxWordLength = BiggestWordLength();
+        hints = GameService.Instance.GridGenerator.gameData.hints;
+        unfoundWords.AddRange(correctWords);
+        foreach (string word in correctWords)
+        {
+            wordFoundStatus[word] = false;
+        }
     }
     public void HandleCellClick(MouseInputHandler cell)
     {
         if (selectedCells.Count > 0 && wordSelected)
         {
-            ResetSelection(); // Reset selection if a word is correctly selected and new selection is made
+            ResetSelection(); 
         }
-
         if (selectedCells.Contains(cell))
         {
             DeselectCell(cell);
@@ -38,19 +48,16 @@ public class PuzzleController
             }
         }
     }
-
     private void SelectCell(MouseInputHandler cell)
     {
         if (selectedLetters.Count >= maxWordLength)
         {
             EndSelection();
-            return; // Prevent further selection
+            return;
         }
-
         selectedCells.Add(cell);
         selectedLetters.Add(cell.GetText());
         cell.SetSelected(true);
-
         // Check if a word is formed after selecting this cell
         string currentWord = string.Join("", selectedLetters);
         if (currentWord.Length <= maxWordLength)
@@ -59,13 +66,13 @@ public class PuzzleController
             {
                 MarkCorrectWord(currentWord);
                 wordSelected = true;
-                CheckEmptyCorrectWords();// Set flag to true when a correct word is selected
+                CheckEmptyCorrectWords();//Level Over Condition
             }
         }
     }
     private void ResetSelection()
     {
-        wordSelected = false; // Reset wordSelected flag
+        wordSelected = false;
         selectedLetters.Clear();
         foreach (var cell in selectedCells)
         {
@@ -96,13 +103,11 @@ public class PuzzleController
         return Mathf.Abs(pos1.x - pos2.x) <= 1 && Mathf.Abs(pos1.y - pos2.y) <= 1;
     }
     private void EndSelection()
-    {
-        // Do nothing if a correct word is currently selected
+    {       
         if (wordSelected)
         {
             return;
         }
-
         selectedLetters.Clear();
         foreach (var cell in selectedCells)
         {
@@ -118,9 +123,11 @@ public class PuzzleController
     {
         foreach (MouseInputHandler cell in selectedCells)
         {
-            cell.SetCorrect(); // Mark cell as correct
+            cell.SetCorrect();
         }
-        correctWords.Remove(word); // Remove word from list of correct words
+        correctWords.Remove(word); 
+        unfoundWords.Remove(word); 
+        wordFoundStatus[word] = true;      
     }
     private Vector2Int GetCellPosition(GameObject cellGO)
     {
@@ -144,10 +151,32 @@ public class PuzzleController
             Debug.Log("Level Completed");
         }
     }
+    private string FindHintForWord(string word)
+    {
+        int index = correctWords.IndexOf(word);
+        if (index != -1 && index < hints.Length)
+        {
+            return hints[index];
+        }
+        return string.Empty;
+    }
+    public string GetRandomHint()
+    {        
+        List<string> remainingUnfoundWords = unfoundWords.Where(word => !wordFoundStatus[word]).ToList();
+
+        if (remainingUnfoundWords.Count == 0)
+        {
+            return string.Empty; // No remaining unfound words
+        }       
+        int randomIndex = UnityEngine.Random.Range(0, remainingUnfoundWords.Count);
+        // Get the random word at the selected index
+        string randomWord = remainingUnfoundWords[randomIndex];       
+        string randomHint = FindHintForWord(randomWord);
+        return randomHint;
+    }
     private int BiggestWordLength()
     {
         int maxLength = 0;
-
         foreach (string word in GameService.Instance.GridGenerator.gameData.words)
         {
             int wordLength = word.Length;

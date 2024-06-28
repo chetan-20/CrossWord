@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89b2afb2e0e98e41a79de4900943658, type: 3}
   m_Name: Puzzle1
   m_EditorClassIdentifier: 
-  timeInSeconds: 0
   gridSizeX: 8
   gridSizeY: 8
   words:
@@ -22,3 +21,10 @@ MonoBehaviour:
   - NEST
   - TIGER
   - ROAR
+  hints:
+  - A Smart Bird
+  - A Fruit
+  - King of The Jungle
+  - Bird Hangout Zone
+  - Big Striped Cat
+  - Animals War Cry
